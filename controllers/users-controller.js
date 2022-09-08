@@ -74,6 +74,22 @@ const userController = {
             res.json(dbData);
         })
         .catch(err => {res.json(err)})
+    },
+
+    addToFriendList({params}, res) {
+        User.findOneAndUpdate(
+            {_id: params.userId}, 
+            {$push: {friends: params.friendId}},
+            {new: true}
+        )
+        .then(dbData => {
+            if (!dbData) {
+                res.status(404).json({ message: 'No pizza found with this id!' });
+                return;
+              }
+              res.json(dbData);
+        })
+        .catch(err => res.json(err));
     }
 }
 
