@@ -47,6 +47,33 @@ const userController = {
         .catch(err => {
             res.json(err);
         })
+    },
+
+    updateUserById({params, body}, res) {
+        User.findOneAndUpdate({_id: params.id}, body, {
+            new: true,
+            runValidators: true
+        })
+        .then(dbData => {
+            if (!dbData) {
+                res.status(404).json({message: 'User not found'});
+                return;
+            }
+            res.json(dbData);
+        })
+        .catch(err => {res.json(err)})
+    },
+
+    deleteUserById({params}, res) {
+        User.findOneAndDelete({_id: params.id})
+        .then(dbData => {
+            if (!dbData) {
+                res.status(404).json({message: 'User not found'});
+                return;
+            }
+            res.json(dbData);
+        })
+        .catch(err => {res.json(err)})
     }
 }
 
