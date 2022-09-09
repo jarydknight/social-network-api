@@ -101,6 +101,11 @@ const userController = {
             {$push: {friends: params.friendId}},
             {new: true}
         )
+        // .populate({
+        //     path: 'users',
+        //     select: '-__v'
+        // })
+        // .select('-__v')
         .then(dbData => {
             if (!dbData) {
                 res.status(404).json({ message: 'No friend found with this id!' });

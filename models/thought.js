@@ -19,7 +19,7 @@ const ReactionSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            get: createdAtVal => createdAtVal //TODO
+            get: createdAtVal => createdAtVal.toDateString() //TODO
         }
     }
 );
@@ -36,7 +36,7 @@ const ThoughtSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            get: createdAtVal => createdAtVal //TODO
+            get: createdAtVal => createdAtVal.toDateString() //TODO
         },
         username: {
             type: String,
