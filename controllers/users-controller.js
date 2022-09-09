@@ -1,10 +1,21 @@
 const User = require('../models/user');
 
+// User controller object
 const userController = {
+
+    // Function to get all users
     getAllUsers(req, res) {
         User.find({})
         .populate({
             path: 'friends',
+            select: '-__v'
+        })
+        .select('-__v')
+        .sort({
+            _id: -1
+        })
+        .populate({
+            path: 'thoughts',
             select: '-__v'
         })
         .select('-__v')
@@ -20,6 +31,7 @@ const userController = {
         });
     },
 
+    // Function to get user by ID
     getUserById({params}, res) {
         User.findOne({_id: params.id})
         .populate({
@@ -49,6 +61,7 @@ const userController = {
         })
     },
 
+    // Function to update user by ID
     updateUserById({params, body}, res) {
         User.findOneAndUpdate({_id: params.id}, body, {
             new: true,
@@ -64,6 +77,7 @@ const userController = {
         .catch(err => {res.json(err)})
     },
 
+    // Function to delete user by ID
     deleteUserById({params}, res) {
         User.findOneAndDelete({_id: params.id})
         .then(dbData => {
@@ -76,6 +90,7 @@ const userController = {
         .catch(err => {res.json(err)})
     },
 
+    // Function to add friend to user's friend list
     addToFriendList({params}, res) {
         User.findOneAndUpdate(
             {_id: params.userId}, 
@@ -92,6 +107,7 @@ const userController = {
         .catch(err => res.json(err));
     },
 
+    // Function to remove friend from user's friend list
     removeFronFriendList({params}, res) {
         User.findOneAndUpdate(
             {_id: params.userId},

@@ -1,5 +1,11 @@
 const router = require('express').Router();
+const { getAllThoughts, createThought, getThoughtById } = require('../../controllers/thoughts-controllers')
 
-router.route('/').get(function (req, res) {res.json("test")})
+router.route('/')
+.get(getAllThoughts)
+.post(createThought)
+
+router.route('/:id')
+.get(getThoughtById)
 
 module.exports = router;
