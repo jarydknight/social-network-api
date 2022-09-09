@@ -62,6 +62,29 @@ const thoughtController = {
         })
     },
 
+    // Function to update Thought
+    updateThought({params, body}, res) {
+        Thought.findOneAndUpdate(
+            {_id: params.id},
+            body,
+            {
+                new: true,
+                runValidators: true
+            }
+        )
+        .then(dbData => {
+            if(!dbData) {
+                res.status(404).json({message: 'User not found'});
+                return;
+            }
+            res.json(dbData)
+        })
+        .catch(err => {
+            res.json(err)
+        })
+    },
+
+    // Function to delete Thought
     deleteThought({params}, res) {
         Thought.findOneAndDelete({_id: params.id})
         .then(dbData => {
