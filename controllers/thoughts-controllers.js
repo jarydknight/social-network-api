@@ -95,6 +95,41 @@ const thoughtController = {
             res.json(dbData);
         })
         .catch(err => {res.json(err)})
+    },
+
+    // Function to create reaction
+    createReaction({params, body}, res) {
+        Thought.findOneAndUpdate(
+            {_id: params.thoughtId},
+            {$push: {reactions: body}},
+            {new: true}
+        )
+        .populate({
+            path: 'reactions',
+            select: '-__v'
+        })
+        .select('-__v')
+        .then(dbData => {
+            if(!dbData) {
+                res.status(404).json({message: 'Thought not found'});
+                return;
+            }
+            res.json(dbData);
+        })
+        .catch(err => {res.json(err)})
+    },
+
+    // Function to delete reaction
+    deleteReaction({params, body}, res) {
+        Thought.findOneAndUpdate(
+            {_id: params.thoughtId},
+            {$pull: {reactions: {reactionId: body.reactionId}}},
+            {new: true}
+        )
+        .then(dbData => {
+            res.json(dbData);
+        })
+        .catch(err => {res.json(err)})
     }
 }
 
