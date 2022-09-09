@@ -60,6 +60,18 @@ const thoughtController = {
         .catch(err => {
             res.json(err)
         })
+    },
+
+    deleteThought({params}, res) {
+        Thought.findOneAndDelete({_id: params.id})
+        .then(dbData => {
+            if(!dbData) {
+                res.status(404).json({message: 'User not found'});
+                return
+            }
+            res.json(dbData);
+        })
+        .catch(err => {res.json(err)})
     }
 }
 
